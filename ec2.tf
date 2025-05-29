@@ -311,3 +311,15 @@ module "s3-bucket" {
   source  = "cloudposse/s3-bucket/aws"
   version = "2.0.0"
 }
+
+module "lambda_function1" {
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "~> 1.0"
+
+  function_name = "${random_pet.this.id}-lambda1"
+  handler       = "index.lambda_handler"
+  runtime       = "python3.8"
+
+  create_package         = false
+  local_existing_package = data.null_data_source.downloaded_package.outputs["filename"]
+}
